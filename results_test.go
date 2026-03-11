@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestGetSelfEsteemLevel(t *testing.T) {
 	tests := []struct {
@@ -98,5 +100,26 @@ func TestCalculateResultsBasic(t *testing.T) {
 	}
 	if mind.Now != 50 || mind.Ideal != 70 || mind.Diff != 20 {
 		t.Errorf("mind level = %+v, want Now=50 Ideal=70 Diff=20", mind)
+	}
+}
+
+func TestBuildStoredResultAndStoredToSurvey(t *testing.T) {
+	r := SurveyResponse{
+		HealthNow: 10, HealthIdeal: 20,
+		MindNow: 30, MindIdeal: 40,
+		CharacterNow: 40, CharacterIdeal: 50,
+		AuthorityNow: 60, AuthorityIdeal: 80,
+		HandsNow: 45, HandsIdeal: 65,
+		AppearanceNow: 15, AppearanceIdeal: 60,
+		ConfidenceNow: 25, ConfidenceIdeal: 33,
+	}
+	stored := buildStoredResult("testid", r)
+	if stored.ID != "testid" {
+		t.Fatalf("ID = %s, want testid", stored.ID)
+	}
+
+	back := storedToSurvey(stored)
+	if back != r {
+		t.Errorf("storedToSurvey() = %+v, want %+v", back, r)
 	}
 }
