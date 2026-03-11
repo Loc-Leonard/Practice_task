@@ -1,0 +1,24 @@
+{
+  "name": "practice_task",
+  "version": "1.0.0",
+  "description": "```\r dembo-rubinstein-app/\r ├── main.go                 # Основной сервер на Go\r ├── go.mod                  # Модуль Go\r ├── static/                 # Статические файлы\r │   ├── css/\r │   │   └── style.css       # Стили для вертикальных шкал\r │   ├── js/\r │   │   ├── survey.js       # Логика опроса\r │   │   └── results.js      # Логика результатов (для варианта А)\r │   └── index.html          # Главная страница с опросом\r ├── templates/              # HTML шаблоны Go (для варианта Б)\r │   └── result.html         # Шаблон результатов\r └── data/                   # Для хранения (опционально)\r     └── store.go            # Логика хранения данных\r ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Loc-Leonard/Practice_task.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Loc-Leonard/Practice_task/issues"
+  },
+  "homepage": "https://github.com/Loc-Leonard/Practice_task#readme",
+  "devDependencies": {
+    "cypress": "^15.11.0"
+  }
+}
