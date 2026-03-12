@@ -91,6 +91,16 @@ jobs:
     environment: production
     
     steps:
+      - name: Check VM_SSH_KEY presence
+        run: |
+          if [ -z "${{ secrets.VM_SSH_KEY }}" ]; then
+            echo "VM_SSH_KEY is EMPTY"
+            exit 1
+          else
+            echo "VM_SSH_KEY length OK"
+            echo "${{ secrets.VM_SSH_KEY }}" | wc -c
+          fi
+      
       - name: Checkout repo
         uses: actions/checkout@v4
 
