@@ -83,3 +83,34 @@ jobs:
           if [ -f app.pid ]; then
             kill "$(cat app.pid)" || true
           fi
+  
+  deploy:
+    needs: [unit-test, ui-test]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            set -e
+            if [ ! -d /opt/practice_task/Practice_task ]; then
+              sudo mkdir -p /opt/practice_task
+              sudo chown $USER:$USER /opt/practice_task
+              cd /opt/practice_task
+              git clone git@github.com:Loc-Leonard/Practice_task.git
+            fi
+
+            cd /opt/practice_task/Practice_task
+            git pull origin main
+
+            docker compose pull || true
+            docker compose up -d --build
