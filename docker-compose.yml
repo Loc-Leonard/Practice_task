@@ -1,4 +1,4 @@
-version: '3.8'  # ок, игнор warning
+version: '3.8'
 services:
   app:
     build: .
@@ -33,18 +33,6 @@ services:
     networks: [backend-net]
     restart: unless-stopped
 
-  # npm:
-  #   image: jc21/nginx-proxy-manager:latest
-  #   ports:
-  #     - '8081:80'
-  #     - '8443:443'
-  #     - '81:81'
-  #   volumes:
-  #     - npm-data:/data
-  #     - npm-lets:/etc/letsencrypt
-  #   networks: [backend-net]
-  #   restart: unless-stopped
-
 networks:
   backend-net:
     driver: bridge
@@ -52,5 +40,3 @@ networks:
 volumes:
   pgdata:
   pgadmin-data:
-  #npm-data:
-  #npm-lets:
