@@ -1,9 +1,10 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ .Values.postgres.name }}
   namespace: {{ .Values.namespace }}
 spec:
+  ServiceName: {{ .Values.postgres.name }}-headless
   replicas: {{ .Values.postgres.replicas }}
   selector:
     matchLabels:
@@ -29,8 +30,13 @@ spec:
               command: ["pg_isready", "-U", "user"]
             initialDelaySeconds: 30
             periodSeconds: 10
-      volumes:
-        - name: postgres-data
-          persistentVolumeClaim:
-            claimName: postgres-pvc
+      volumeClaimTemplates:
+        - metadata:
+            name: postgres-data
+          spec:
+            accessModes: [ "ReadWriteOnce" ]
+            storageClassName: {{ .Values.postgres.storageClassName | quote }}
+            resources:
+              requests:
+                storage: {{ .Values.postgres.storageSize }}
 
