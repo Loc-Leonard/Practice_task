@@ -1,0 +1,31 @@
+namespace: dembo-rubinstein
+
+app:
+  name: app
+  image: locleon123/dembo-app:latest
+  replicas: 1
+  containerPort: 8080
+  service:
+    type: NodePort
+    port: 8080
+    nodePort: 30080
+
+postgres:
+  name: postgres
+  image: postgres:16
+  replicas: 1
+  containerPort: 5432
+  storage:
+    size: 2Gi
+    storageClassName: local-path
+
+secret:
+  name: db-secret
+  postgresUser: "user"
+  postgresPassword: "change_me_please"
+  postgresDb: "surveydb"
+  dbUser: "user"
+  dbPass: "change_me_please"
+  dbName: "surveydb"
+  pgadminEmail: "pjankovkirill2016@gmail.com"
+  pgadminPassword: "change_me_please"
