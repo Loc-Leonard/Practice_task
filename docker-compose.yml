@@ -24,19 +24,9 @@ services:
     networks: [backend-net]
     restart: unless-stopped
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    env_file:
-      - .env
-    volumes: [pgadmin-data:/var/lib/pgadmin]
-    depends_on: [postgres]
-    networks: [backend-net]
-    restart: unless-stopped
-
 networks:
   backend-net:
     driver: bridge
 
 volumes:
   pgdata:
-  pgadmin-data:
