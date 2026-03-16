@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.postgres.name }}-headless
   namespace: {{ .Values.namespace }}
 spec:
-  ClusterIP: None
+  clusterIP: None
   selector:
     app: {{ .Values.postgres.name }}
   ports:

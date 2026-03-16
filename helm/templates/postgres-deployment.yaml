@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.postgres.name }}
   namespace: {{ .Values.namespace }}
 spec:
-  ServiceName: {{ .Values.postgres.name }}-headless
+  serviceName: {{ .Values.postgres.name }}-headless
   replicas: {{ .Values.postgres.replicas }}
   selector:
     matchLabels:
