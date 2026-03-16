@@ -4,9 +4,9 @@ metadata:
   name: postgres-pvc
   namespace: {{ .Values.namespace }}
 spec:
-  storageClassName: {{ .Values.postgres.storage.storageClassName }}
+  storageClassName: {{ .Values.postgres.storageClassName }}
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.postgres.storage.size }}
+      storage: {{ .Values.postgres.storageSize }}
