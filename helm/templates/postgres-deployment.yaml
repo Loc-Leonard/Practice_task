@@ -30,13 +30,12 @@ spec:
               command: ["pg_isready", "-U", "user"]
             initialDelaySeconds: 30
             periodSeconds: 10
-      volumeClaimTemplates:
-        - metadata:
-            name: postgres-data
-          spec:
-            accessModes: [ "ReadWriteOnce" ]
-            storageClassName: {{ .Values.postgres.storageClassName | quote }}
-            resources:
-              requests:
-                storage: {{ .Values.postgres.storageSize }}
-
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ .Values.postgres.storageClassName | quote }}
+        resources:
+          requests:
+            storage: {{ .Values.postgres.storageSize }}
