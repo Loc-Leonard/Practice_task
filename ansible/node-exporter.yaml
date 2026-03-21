@@ -3,6 +3,9 @@
   hosts: sbervm
   become: yes
 
+  vars_files:
+    - group_vars/all.yml
+
   vars:
     node_exporter_version: "1.10.2"
     node_exporter_archive: "node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
@@ -57,7 +60,7 @@
 
           [Service]
           User={{ node_exporter_user }}
-          ExecStart=/usr/local/bin/node_exporter --web.listen-address=0.0.0.0:9100
+          ExecStart=/usr/local/bin/node_exporter --web.listen-address={{ node_exporter_listen_address }}
           Restart=always
 
           [Install]

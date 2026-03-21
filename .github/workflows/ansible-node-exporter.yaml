@@ -22,6 +22,9 @@ jobs:
       - name: Install Ansible
         run: |
           pip install ansible==8.7.0
+      
+      - name: Create vault password file
+        run: echo "${{ secret.ANSIBLE_VAULT_PASSWORD }}" > .vault_pass
 
       - name: Configure SSH key
         run: |
@@ -33,6 +36,6 @@ jobs:
       - name: Run Ansible playbook
         run: |
           cd ansible
-          ansible-playbook node-exporter.yaml -i inventory/hosts
+          ansible-playbook node-exporter.yaml -i inventory/hosts --vault-password-file.vault_pass
         env:
           ANSIBLE_HOST_KEY_CHECKING: "false"
