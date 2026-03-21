@@ -24,7 +24,9 @@ jobs:
           pip install ansible==8.7.0
       
       - name: Create vault password file
-        run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > .vault_pass
+        run: |
+          mkdir -p ansible
+          echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > ansible/.vault_pass
 
       - name: Configure SSH key
         run: |

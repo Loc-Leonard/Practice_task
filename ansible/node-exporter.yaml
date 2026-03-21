@@ -12,6 +12,7 @@
     node_exporter_url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/{{ node_exporter_archive }}"
     node_exporter_user: "prometheus"
 
+
   tasks:
     - name: Create node_exporter user
       user: 
@@ -67,7 +68,7 @@
           WantedBy=multi-user.target
       notify: reload systemd
     
-    
+
     - name: Ensure node_exporter is started and enabled
       systemd:
         name: node_exporter
