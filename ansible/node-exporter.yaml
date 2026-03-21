@@ -1,0 +1,75 @@
+---
+- name: Deploy node_exporter on VM
+  hosts: sbervm
+  become: yes
+
+  vars:
+    node_exporter_version: "1.10.2"
+    node_exporter_archive: "node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+    node_exporter_url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/{{ node_exporter_archive }}"
+    node_exporter_user: "prometheus"
+
+  tasks:
+    - name: Create node_exporter user
+      user: 
+        name: "{{ node_exporter_user }}"
+        system: yes
+        shell: /usr/sbin/nologin
+        create_home: no
+
+    - name: Create node_exporter directory
+      file:
+        path: /opt/node_exporter
+        state: directory
+        owner: "{{ node_exporter_user }}"
+        group: "{{ node_exporter_user }}"
+    
+    - name: Download node_exporter binary
+      get_url:
+        url: "{{ node_exporter_url }}"
+        dest: "/tmp/{{ node_exporter_archive }}"
+        mode: "0644" 
+    
+    - name: Extract node-exporter
+      unarchive:
+        src: "/tmp/{{ node_exporter_archive }}"
+        dest: /opt/node_exporter
+        remote_src: yes
+        owner: "{{ node_exporter_user }}"
+        group: "{{ node_exporter_user }}"
+      
+    - name: Create symlink to node_exporter binary
+      file:
+        src: "/opt/node_exporter/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter"
+        dest: /usr/local/bin/node_exporter
+        state: link
+        owner: root
+        group: root
+        mode: "0755"
+    
+    - name: Create node_exporter systemd service
+      copy:
+        dest: /etc/systemd/system/node_exporter.service
+        content: |
+          [Unit]
+          Description=Node Exporter
+          After=network.target
+
+          [Service]
+          User={{ node_exporter_user }}
+          ExecStart=/usr/local/bin/node_exporter --web.listen-address=0.0.0.0:9100
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+      notify: reload systemd
+    
+    - name: Ensure node_exporter is started and enabled
+      systemd:
+        name: node_exporter
+        state: started
+        enabled: yes
+  handlers:
+    - name: reload systemd
+      command: systemctl daemon-reload
+      listen: reload systemd
