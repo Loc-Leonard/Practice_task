@@ -36,6 +36,6 @@ jobs:
       - name: Run Ansible playbook
         run: |
           cd ansible
-          ansible-playbook node-exporter.yaml -i inventory/hosts --vault-password-file.vault_pass
+          ansible-playbook node-exporter.yaml -i inventory/hosts --vault-password-file .vault_pass
         env:
           ANSIBLE_HOST_KEY_CHECKING: "false"

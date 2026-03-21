@@ -67,6 +67,7 @@
           WantedBy=multi-user.target
       notify: reload systemd
     
+    
     - name: Ensure node_exporter is started and enabled
       systemd:
         name: node_exporter
