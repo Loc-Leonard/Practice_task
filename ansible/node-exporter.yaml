@@ -62,7 +62,7 @@
           User={{ node_exporter_user }}
           ExecStart=/usr/local/bin/node_exporter --web.listen-address={{ node_exporter_listen_address }}
           Restart=always
-
+          
           [Install]
           WantedBy=multi-user.target
       notify: reload systemd
