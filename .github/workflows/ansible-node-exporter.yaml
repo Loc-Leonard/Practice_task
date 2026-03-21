@@ -7,7 +7,7 @@ on:
       - "ansible/**"
 
 jobs:
-  deploy node_exporter:
+  deploy_node_exporter:
     runs-on: ubuntu-latest
 
     steps:
