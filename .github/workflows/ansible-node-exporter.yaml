@@ -1,0 +1,38 @@
+name: Deploy node-exporter with Ansible
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "ansible/**"
+
+jobs:
+  deploy node_exporter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set Up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+
+      - name: Install Ansible
+        run: |
+          pip install ansible ==8.7.0
+
+      - name: Configure SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/know_hosts
+
+      - name: Run Ansible playbook
+        run: |
+          cd ansible
+          ansible-playbook node-exporter.yaml -i inventory/hosts
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "false"
