@@ -9,7 +9,7 @@
     node_exporter_url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/{{ node_exporter_archive }}"
     node_exporter_user: "prometheus"
 
-  tasks:
+  tasks: #tasks for ansible
     - name: Create node_exporter user
       user: 
         name: "{{ node_exporter_user }}"
